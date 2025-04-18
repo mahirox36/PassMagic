@@ -7,6 +7,7 @@ const {
   Tray,
   Menu,
   nativeImage,
+  nativeTheme,
 } = require("electron");
 const path = require("path");
 const robot = require("robotjs");
@@ -22,16 +23,36 @@ let mainWindow = null;
 let settingsWindow = null;
 let tray = null;
 
+// Function to get system theme
+function getSystemTheme() {
+  return nativeTheme.shouldUseDarkColors ? "dark" : "light";
+}
+
 // Initialize default settings if not exist
 function initializeSettings() {
   if (!store.get("settings")) {
     store.set("settings", {
-      theme: "light",
+      theme: "system",
       hotkey: "F13",
       autoStart: false,
     });
   }
 }
+
+// Apply theme to a window
+function applyTheme(window) {
+  const settings = store.get("settings");
+  const theme = settings.theme === "system" ? getSystemTheme() : settings.theme;
+  if (window && window.webContents) {
+    window.webContents.send("apply-theme", theme);
+  }
+}
+
+// Listen for system theme changes
+nativeTheme.on("updated", () => {
+  if (mainWindow) applyTheme(mainWindow);
+  if (settingsWindow) applyTheme(settingsWindow);
+});
 
 function createWindow() {
   // Create the browser window if it doesn't exist
@@ -54,18 +75,19 @@ function createWindow() {
       skipTaskbar: true,
       alwaysOnTop: true,
       focusable: false,
+      type: "toolbar",
     });
 
     // Load the index.html file
     mainWindow.loadFile("index.html");
 
-    // Send theme to renderer
+    // Apply theme to main window
     mainWindow.webContents.on("did-finish-load", () => {
-      const settings = store.get("settings");
-      mainWindow.webContents.send("apply-theme", settings.theme);
+      applyTheme(mainWindow);
     });
 
     mainWindow.once("ready-to-show", () => {
+      mainWindow.setAlwaysOnTop(true, "screen-saver");
       mainWindow.showInactive();
     });
 
@@ -92,7 +114,7 @@ function createSettingsWindow() {
   if (settingsWindow === null) {
     settingsWindow = new BrowserWindow({
       width: 420,
-      height: 600,
+      height: 700,
       resizable: false,
       webPreferences: {
         nodeIntegration: true,
@@ -100,19 +122,25 @@ function createSettingsWindow() {
       },
       autoHideMenuBar: true,
       icon: path.join(__dirname, "assets/icon.png"),
-      parent: mainWindow,
-      modal: true,
       transparent: true,
       backgroundColor: "#00000000",
       frame: false,
+      alwaysOnTop: true,
     });
 
     settingsWindow.loadFile("settings.html");
+
+    settingsWindow.webContents.on("did-finish-load", () => {
+      applyTheme(settingsWindow);
+    });
 
     settingsWindow.on("closed", () => {
       settingsWindow = null;
     });
   } else {
+    if (!settingsWindow.isVisible()) {
+      settingsWindow.show();
+    }
     settingsWindow.focus();
   }
 }
@@ -246,6 +274,18 @@ ipcMain.on("save-settings", (event, newSettings) => {
   // Save settings
   store.set("settings", newSettings);
 
+  // Apply theme immediately to both windows
+  if (mainWindow) {
+    const theme =
+      newSettings.theme === "system" ? getSystemTheme() : newSettings.theme;
+    mainWindow.webContents.send("apply-theme", theme);
+  }
+  if (settingsWindow) {
+    const theme =
+      newSettings.theme === "system" ? getSystemTheme() : newSettings.theme;
+    settingsWindow.webContents.send("apply-theme", theme);
+  }
+
   // Update auto-start
   app.setLoginItemSettings({
     openAtLogin: newSettings.autoStart,
@@ -254,13 +294,13 @@ ipcMain.on("save-settings", (event, newSettings) => {
   // Update hotkey
   registerGlobalShortcut();
 
-  // Update theme in main window
-  if (mainWindow) {
-    mainWindow.webContents.send("apply-theme", newSettings.theme);
-  }
-
   // Confirm save
   event.reply("settings-saved");
+
+  // Hide settings window after save
+  if (settingsWindow) {
+    settingsWindow.hide();
+  }
 });
 
 // Handle settings window close
@@ -280,20 +320,32 @@ ipcMain.on("copy-and-paste", (event, password) => {
     mainWindow.hide();
   }
 
+  // Increase delay and add keyboard event simulation
   setTimeout(() => {
     const platform = os.platform();
 
+    // Simulate a small delay between pressing and releasing modifier key
     if (platform === "darwin") {
-      robot.keyTap("v", "command");
+      robot.keyToggle("command", "down");
+      robot.keyTap("v");
+      robot.keyToggle("command", "up");
     } else {
-      robot.keyTap("v", "control");
+      robot.keyToggle("control", "down");
+      robot.keyTap("v");
+      robot.keyToggle("control", "up");
     }
-  }, 100);
+  }, 300); // Increased delay
 });
 
 // Add IPC handler for hide-window
-ipcMain.on("hide-window", () => {
-  if (mainWindow) {
-    mainWindow.hide();
+ipcMain.on("hide-window", (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win) {
+    win.hide();
   }
+});
+
+// Add IPC handler for opening settings
+ipcMain.on("open-settings", () => {
+  createSettingsWindow();
 });

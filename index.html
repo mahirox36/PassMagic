@@ -61,9 +61,13 @@
 
       [data-theme="dark"] {
         --gradient-primary: linear-gradient(135deg, #d07bff 0%, #9d4ed8 100%);
-        --bg-color: rgba(40, 40, 50, 0.95);
+        --bg-color: rgba(20, 20, 28, 0.95);
         --text-color: #ffffff;
-        --card-bg: rgba(60, 60, 70, 0.8);
+        --card-bg: rgba(30, 30, 40, 0.8);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --card-shadow: rgba(0, 0, 0, 0.3);
+        --button-shadow: rgba(208, 123, 255, 0.4);
+        --button-glow: rgba(208, 123, 255, 0.7);
       }
 
       /* Base styles */
@@ -87,12 +91,12 @@
       /* Main container */
       .app-container {
         width: 420px;
-        height: 670px; /* Increased height to fit all content properly */
+        height: 670px;
         display: flex;
         flex-direction: column;
-        background: rgba(255, 255, 255, 0.95);
+        background: var(--bg-color);
         backdrop-filter: blur(10px);
-        border: 2px solid rgba(255, 255, 255, 0.8);
+        border: 2px solid var(--card-border);
         border-radius: var(--radius-lg);
         box-shadow: var(--shadow-lg);
         overflow: hidden;
@@ -144,6 +148,56 @@
         background: var(--gradient-primary);
         text-align: center;
         border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .window-control {
+        -webkit-app-region: no-drag;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        opacity: 0.8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+      }
+
+      .window-control:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .window-control.close:hover {
+        background: rgba(255, 100, 100, 0.3);
+      }
+
+      .settings-button {
+        -webkit-app-region: no-drag;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        margin-top: -5px;
+        opacity: 0.8;
+      }
+
+      .settings-button:hover {
+        transform: rotate(45deg);
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.2);
       }
 
       .title {
@@ -208,12 +262,12 @@
       .card {
         padding: 15px;
         border-radius: var(--radius-md);
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 4px 6px var(--card-shadow);
         position: relative;
         overflow: hidden;
-        border: 2px solid rgba(255, 255, 255, 0.8);
+        border: 2px solid var(--card-border);
         backdrop-filter: blur(5px);
-        animation: cardPulse 3s ease-in-out infinite;
+        animation: popIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) backwards;
       }
 
       @keyframes cardPulse {
@@ -398,37 +452,57 @@
       .password-display {
         width: 100%;
         padding: 12px;
-        background: rgba(255, 255, 255, 0.9);
-        border: 2px solid var(--pink-light);
+        background: var(--bg-color);
+        border: 2px solid var(--card-border);
         border-radius: var(--radius-md);
         box-shadow: var(--shadow-inner);
         font-family: var(--font-sans);
         font-size: 15px;
-        color: var(--black);
+        color: var(--text-color);
         margin: 5px 0;
         text-align: center;
         letter-spacing: 2px;
         font-family: "Quicksand", sans-serif;
         transition: all 0.3s ease;
+        min-height: 42px;
+        overflow: hidden;
+        user-select: all;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 2px;
       }
 
       .password-display:focus {
         border-color: var(--pink-mid);
-        box-shadow: 0 0 15px rgba(255, 131, 213, 0.3);
+        box-shadow: 0 0 15px var(--button-shadow);
+      }
+
+      .password-display.generating .password-char {
+        display: inline-block;
+        animation: passwordChar 0.3s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+      }
+
+      .password-char {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: passwordChar 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
 
       /* Generate button */
       .generate-button {
         background: var(--gradient-primary);
         color: white;
-        border: 3px solid white;
+        border: 3px solid var(--card-border);
         border-radius: var(--radius-full);
         padding: 14px 20px;
         font-family: var(--font-display);
         font-size: 16px;
         font-weight: 700;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(255, 131, 213, 0.4);
+        box-shadow: 0 4px 15px var(--button-shadow);
         transition: all 0.2s ease;
         margin: 5px 0;
         display: flex;
@@ -436,15 +510,19 @@
         justify-content: center;
         gap: 8px;
         animation: buttonGlow 2s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+        background-size: 200% auto;
+        animation: shimmer 3s linear infinite;
       }
 
       @keyframes buttonGlow {
         0%,
         100% {
-          box-shadow: 0 4px 15px rgba(255, 131, 213, 0.4);
+          box-shadow: 0 4px 15px var(--button-shadow);
         }
         50% {
-          box-shadow: 0 4px 25px rgba(255, 131, 213, 0.7);
+          box-shadow: 0 4px 25px var(--button-glow);
         }
       }
 
@@ -520,6 +598,40 @@
         }
       }
 
+      @keyframes passwordChar {
+        0% {
+          opacity: 0;
+          transform: translateY(-20px) rotateX(-90deg);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) rotateX(0);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+
+      @keyframes popIn {
+        0% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
       /* Responsive container */
       @media (max-height: 700px) {
         .app-container {
@@ -550,14 +662,9 @@
 
       <!-- Header section -->
       <div class="app-header">
+        <button class="window-control settings" id="openSettings">⚙️</button>
         <h1 class="title">✨ PassMagic ✨</h1>
-        <div class="emoji-row">
-          <span class="emoji">💖</span>
-          <span class="emoji">✨</span>
-          <span class="emoji">🦄</span>
-          <span class="emoji">🌈</span>
-          <span class="emoji">💖</span>
-        </div>
+        <button class="window-control close" id="closeWindow">❌</button>
       </div>
 
       <!-- Main content -->
@@ -608,12 +715,7 @@
         <!-- Password preview card -->
         <div class="card card-preview">
           <h2 class="card-title">🔒 Password Preview</h2>
-          <input
-            type="text"
-            id="passwordDisplay"
-            class="password-display"
-            readonly
-          />
+          <div id="passwordDisplay" class="password-display"></div>
         </div>
 
         <!-- Generate button -->
@@ -775,6 +877,18 @@
         }, 10);
       });
 
+      // Add settings button handler
+      const settingsButton = document.getElementById("openSettings");
+      settingsButton.addEventListener("click", () => {
+        ipcRenderer.send("open-settings");
+      });
+
+      // Add close button handler
+      const closeButton = document.getElementById("closeWindow");
+      closeButton.addEventListener("click", () => {
+        ipcRenderer.send("hide-window");
+      });
+
       // Initialize
       function init() {
         generatePassword();
@@ -794,22 +908,6 @@
       }
 
       function generatePassword() {
-        // Ensure at least one option is selected
-        if (
-          !uppercaseCheck.checked &&
-          !lowercaseCheck.checked &&
-          !digitsCheck.checked &&
-          !symbolsCheck.checked
-        ) {
-          uppercaseCheck.checked = true;
-
-          const selectedOption = document.querySelector(
-            ".cute-checkbox:first-child"
-          );
-          selectedOption.classList.add("pulse");
-          setTimeout(() => selectedOption.classList.remove("pulse"), 1000);
-        }
-
         // Character sets
         const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const lowercase = "abcdefghijklmnopqrstuvwxyz";
@@ -823,69 +921,49 @@
         if (digitsCheck.checked) charPool += digits;
         if (symbolsCheck.checked) charPool += symbols;
 
-        const length = lengthSlider.value;
+        // Ensure at least one option is selected
+        if (charPool === "") {
+          uppercaseCheck.checked = true;
+          charPool = uppercase;
+        }
 
-        // Generate initial password
+        const length = lengthSlider.value;
         let password = "";
+
+        // Generate password
         for (let i = 0; i < length; i++) {
           const randomIndex = Math.floor(Math.random() * charPool.length);
           password += charPool[randomIndex];
         }
 
-        // Ensure at least one character from each selected group
-        while (true) {
-          const hasUpper = uppercaseCheck.checked
-            ? [...password].some((c) => uppercase.includes(c))
-            : true;
-          const hasLower = lowercaseCheck.checked
-            ? [...password].some((c) => lowercase.includes(c))
-            : true;
-          const hasDigit = digitsCheck.checked
-            ? [...password].some((c) => digits.includes(c))
-            : true;
-          const hasSymbol = symbolsCheck.checked
-            ? [...password].some((c) => symbols.includes(c))
-            : true;
+        // Clear previous password
+        passwordDisplay.innerHTML = "";
 
-          if (hasUpper && hasLower && hasDigit && hasSymbol) break;
+        // Generate and display password with animation
+        const chars = password.split("");
+        chars.forEach((char, index) => {
+          const span = document.createElement("span");
+          span.className = "password-char";
+          span.style.animationDelay = `${index * 0.05}s`;
+          span.textContent = char;
+          passwordDisplay.appendChild(span);
+        });
 
-          // Regenerate password
-          password = "";
-          for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * charPool.length);
-            password += charPool[randomIndex];
-          }
-        }
-
-        // Update display with animation
-        const currentPassword = passwordDisplay.value;
-        if (currentPassword !== password) {
-          passwordDisplay.classList.add("fade-transition");
-          setTimeout(() => {
-            passwordDisplay.value = password;
-            passwordDisplay.classList.remove("fade-transition");
-          }, 150);
-        } else {
-          passwordDisplay.value = password;
-        }
+        // Make password selectable
+        passwordDisplay.addEventListener("click", () => {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(passwordDisplay);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
 
         // Update strength meter
         const strength = calculateStrength(password);
         strengthFill.style.width = `${strength * 100}%`;
+        updateStrengthText(strength);
 
-        if (strength < 0.33) {
-          strengthText.textContent = "Weak";
-          strengthFill.style.background =
-            "linear-gradient(135deg, #FF8A8A 0%, #FF5252 100%)";
-        } else if (strength < 0.66) {
-          strengthText.textContent = "Medium";
-          strengthFill.style.background =
-            "linear-gradient(135deg, #FFDB4A 0%, #FFC107 100%)";
-        } else {
-          strengthText.textContent = "Strong";
-          strengthFill.style.background =
-            "linear-gradient(135deg, #85FFBF 0%, #4AFFBE 100%)";
-        }
+        return password;
       }
 
       function calculateStrength(password) {
@@ -910,28 +988,39 @@
         return lengthFactor + complexity * 0.6;
       }
 
-      function generateAndCopy() {
-        generatePassword();
-        const password = passwordDisplay.value;
+      function updateStrengthText(strength) {
+        if (strength < 0.33) {
+          strengthText.textContent = "Weak";
+          strengthFill.style.background =
+            "linear-gradient(135deg, #FF8A8A 0%, #FF5252 100%)";
+        } else if (strength < 0.66) {
+          strengthText.textContent = "Medium";
+          strengthFill.style.background =
+            "linear-gradient(135deg, #FFDB4A 0%, #FFC107 100%)";
+        } else {
+          strengthText.textContent = "Strong";
+          strengthFill.style.background =
+            "linear-gradient(135deg, #85FFBF 0%, #4AFFBE 100%)";
+        }
+      }
 
-        // Visual feedback
+      function generateAndCopy() {
+        const password = generatePassword();
         createHeartBurst();
 
-        // Add copy success animation
-        generateButton.classList.add("active");
-        setTimeout(() => generateButton.classList.remove("active"), 300);
-
         if (ipcRenderer) {
-          // Use Electron IPC to copy and paste
           ipcRenderer.send("copy-and-paste", password);
         } else {
-          // Fallback for regular browser
-          navigator.clipboard.writeText(password).catch(function () {
-            // Fallback for clipboard API not supported
-            passwordDisplay.select();
+          navigator.clipboard.writeText(password).catch(() => {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(passwordDisplay);
+            selection.removeAllRanges();
+            selection.addRange(range);
             document.execCommand("copy");
           });
         }
+        generatePassword();
       }
 
       // Handle keyboard shortcuts
