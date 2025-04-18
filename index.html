@@ -58,6 +58,13 @@
             --radius-lg: 20px;
             --radius-full: 9999px;
         }
+
+        [data-theme="dark"] {
+            --gradient-primary: linear-gradient(135deg, #D07BFF 0%, #9D4ED8 100%);
+            --bg-color: rgba(40, 40, 50, 0.95);
+            --text-color: #FFFFFF;
+            --card-bg: rgba(60, 60, 70, 0.8);
+        }
         
         /* Base styles */
         html, body {
@@ -577,6 +584,11 @@
         const electron = window.require && window.require('electron');
         const ipcRenderer = electron ? electron.ipcRenderer : null;
         
+        // Theme handling
+        ipcRenderer.on('apply-theme', (event, theme) => {
+            document.documentElement.setAttribute('data-theme', theme);
+        });
+        
         // Add animations to elements on load
         document.querySelectorAll('.card').forEach((card, index) => {
             card.style.animation = `fadeIn 0.5s ${0.1 * index}s both`;
@@ -841,7 +853,7 @@
             }
             
             // Close window on Escape
-            if (event.key === 'Escape' && ipcRenderer) {
+            if (event.key === 'Escape') {
                 ipcRenderer.send('hide-window');
             }
         });

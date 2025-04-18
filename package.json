@@ -5,10 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder -mwl",
-    "build:windows": "electron-builder --windows",
-    "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux"
+    "build": "electron-builder"
   },
   "author": "MahiroX36",
   "license": "MIT",
