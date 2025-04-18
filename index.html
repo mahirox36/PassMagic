@@ -1,865 +1,955 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>✨ Super Cute Password Generator ✨</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap');
-        
-        /* Modern CSS reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        /* Variables */
-        :root {
-            /* Updated kawaii gradients */
-            --gradient-primary: linear-gradient(135deg, #FFB7E5 0%, #FF85D5 100%);
-            --gradient-secondary: linear-gradient(135deg, #E2B4FF 0%, #D07BFF 100%);
-            --gradient-blue: linear-gradient(135deg, #B7E5FF 0%, #85D5FF 100%);
-            --gradient-green: linear-gradient(135deg, #B7FFE5 0%, #85FFD5 100%);
-            --gradient-yellow: linear-gradient(135deg, #FFE5B7 0%, #FFD585 100%);
-            
-            /* Updated kawaii colors */
-            --pink-light: #FFE5F3;
-            --pink-mid: #FFB7E5;
-            --pink-dark: #FF85D5;
-            --purple-light: #F3E5FF;
-            --purple-mid: #E2B4FF;
-            --purple-dark: #D07BFF;
-            --blue-light: #E5F3FF;
-            --blue-mid: #B7E5FF;
-            --blue-dark: #85D5FF;
-            --green-light: #E5FFF3;
-            --green-mid: #B7FFE5;
-            --green-dark: #85FFD5;
-            --yellow-light: #FFF3E5;
-            --yellow-mid: #FFE5B7;
-            --yellow-dark: #FFD585;
-            --white: #FFFFFF;
-            --black: #444444;
-            
-            /* Shadows */
-            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
-            --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-            
-            /* Fonts */
-            --font-sans: 'Nunito', sans-serif;
-            --font-display: 'Quicksand', sans-serif;
-            
-            /* Borders */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-full: 9999px;
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap");
 
-        [data-theme="dark"] {
-            --gradient-primary: linear-gradient(135deg, #D07BFF 0%, #9D4ED8 100%);
-            --bg-color: rgba(40, 40, 50, 0.95);
-            --text-color: #FFFFFF;
-            --card-bg: rgba(60, 60, 70, 0.8);
+      /* Modern CSS reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Variables */
+      :root {
+        /* Updated kawaii gradients */
+        --gradient-primary: linear-gradient(135deg, #ffb7e5 0%, #ff85d5 100%);
+        --gradient-secondary: linear-gradient(135deg, #e2b4ff 0%, #d07bff 100%);
+        --gradient-blue: linear-gradient(135deg, #b7e5ff 0%, #85d5ff 100%);
+        --gradient-green: linear-gradient(135deg, #b7ffe5 0%, #85ffd5 100%);
+        --gradient-yellow: linear-gradient(135deg, #ffe5b7 0%, #ffd585 100%);
+
+        /* Updated kawaii colors */
+        --pink-light: #ffe5f3;
+        --pink-mid: #ffb7e5;
+        --pink-dark: #ff85d5;
+        --purple-light: #f3e5ff;
+        --purple-mid: #e2b4ff;
+        --purple-dark: #d07bff;
+        --blue-light: #e5f3ff;
+        --blue-mid: #b7e5ff;
+        --blue-dark: #85d5ff;
+        --green-light: #e5fff3;
+        --green-mid: #b7ffe5;
+        --green-dark: #85ffd5;
+        --yellow-light: #fff3e5;
+        --yellow-mid: #ffe5b7;
+        --yellow-dark: #ffd585;
+        --white: #ffffff;
+        --black: #444444;
+
+        /* Shadows */
+        --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+        --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+        /* Fonts */
+        --font-sans: "Nunito", sans-serif;
+        --font-display: "Quicksand", sans-serif;
+
+        /* Borders */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --radius-full: 9999px;
+      }
+
+      [data-theme="dark"] {
+        --gradient-primary: linear-gradient(135deg, #d07bff 0%, #9d4ed8 100%);
+        --bg-color: rgba(40, 40, 50, 0.95);
+        --text-color: #ffffff;
+        --card-bg: rgba(60, 60, 70, 0.8);
+      }
+
+      /* Base styles */
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        background-color: transparent;
+        font-family: var(--font-sans);
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--black);
+        background: none;
+      }
+
+      /* Main container */
+      .app-container {
+        width: 420px;
+        height: 670px; /* Increased height to fit all content properly */
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        position: relative;
+        animation: floatContainer 32s ease-in-out infinite;
+      }
+
+      @keyframes floatContainer {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
         }
-        
-        /* Base styles */
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background-color: transparent;
-            font-family: var(--font-sans);
+        50% {
+          transform: translateY(-10px) rotate(0.5deg);
         }
-        
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--black);
-            background: none;
+      }
+
+      /* Glowing background effect */
+      .glow {
+        position: absolute;
+        border-radius: var(--radius-lg);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--gradient-primary);
+        filter: blur(30px);
+        opacity: 0.3;
+        z-index: -1;
+      }
+
+      /* Background sparkles */
+      .sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: white;
+        pointer-events: none;
+        opacity: 0;
+        z-index: -1;
+      }
+
+      /* Header section */
+      .app-header {
+        -webkit-app-region: drag;
+        position: relative;
+        padding: 20px 15px 10px;
+        background: var(--gradient-primary);
+        text-align: center;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      }
+
+      .title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 22px;
+        color: white;
+        margin: 0;
+        padding: 10px 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .emoji-row {
+        display: flex;
+        justify-content: space-around;
+        margin: 5px 0;
+      }
+
+      .emoji {
+        font-size: 20px;
+        animation: bounce 2s infinite;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      }
+
+      .emoji:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .emoji:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .emoji:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .emoji:nth-child(4) {
+        animation-delay: 0.6s;
+      }
+      .emoji:nth-child(5) {
+        animation-delay: 0.8s;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
         }
-    
-        
-        /* Main container */
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      /* Content area */
+      .app-content {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      /* Card-like sections */
+      .card {
+        padding: 15px;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(5px);
+        animation: cardPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes cardPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: inherit;
+        background: linear-gradient(
+          45deg,
+          var(--pink-light),
+          var(--purple-light),
+          var(--blue-light)
+        );
+        z-index: -1;
+        opacity: 0.5;
+      }
+
+      .card-length {
+        background: var(--blue-light);
+      }
+
+      .card-length::before {
+        background: var(--gradient-blue);
+      }
+
+      .card-options {
+        background: var(--green-light);
+      }
+
+      .card-options::before {
+        background: var(--gradient-green);
+      }
+
+      .card-preview {
+        background: var(--yellow-light);
+      }
+
+      .card-preview::before {
+        background: var(--gradient-yellow);
+      }
+
+      .card-strength {
+        background: var(--purple-light);
+      }
+
+      .card-strength::before {
+        background: var(--gradient-secondary);
+      }
+
+      .card-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 10px;
+        color: var(--black);
+      }
+
+      /* Sliders */
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.6);
+        outline: none;
+        margin: 10px 0;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        border: 2px solid white;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--pink-mid);
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        border: 2px solid white;
+      }
+
+      .slider-value {
+        font-weight: 600;
+        color: var(--blue-dark);
+        margin-top: 5px;
+        font-size: 14px;
+      }
+
+      /* Checkboxes */
+      .checkbox-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .cute-checkbox {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        font-size: 14px;
+      }
+
+      .cute-checkbox input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .checkmark {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        background: white;
+        border: 2px solid var(--green-mid);
+        border-radius: var(--radius-sm);
+        transition: all 0.2s ease;
+      }
+
+      .cute-checkbox:hover .checkmark {
+        transform: scale(1.05);
+        border-color: var(--green-dark);
+      }
+
+      .cute-checkbox input:checked ~ .checkmark {
+        background: var(--green-mid);
+        border-color: var(--green-dark);
+      }
+
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      .cute-checkbox input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      /* Password display */
+      .password-display {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid var(--pink-light);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-inner);
+        font-family: var(--font-sans);
+        font-size: 15px;
+        color: var(--black);
+        margin: 5px 0;
+        text-align: center;
+        letter-spacing: 2px;
+        font-family: "Quicksand", sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      .password-display:focus {
+        border-color: var(--pink-mid);
+        box-shadow: 0 0 15px rgba(255, 131, 213, 0.3);
+      }
+
+      /* Generate button */
+      .generate-button {
+        background: var(--gradient-primary);
+        color: white;
+        border: 3px solid white;
+        border-radius: var(--radius-full);
+        padding: 14px 20px;
+        font-family: var(--font-display);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 131, 213, 0.4);
+        transition: all 0.2s ease;
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        animation: buttonGlow 2s ease-in-out infinite;
+      }
+
+      @keyframes buttonGlow {
+        0%,
+        100% {
+          box-shadow: 0 4px 15px rgba(255, 131, 213, 0.4);
+        }
+        50% {
+          box-shadow: 0 4px 25px rgba(255, 131, 213, 0.7);
+        }
+      }
+
+      .generate-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .generate-button:active {
+        transform: translateY(1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Strength meter */
+      .strength-meter {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: var(--radius-full);
+        overflow: hidden;
+        margin: 10px 0;
+      }
+
+      .strength-meter-fill {
+        height: 100%;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-full);
+        transition: width 0.3s ease;
+      }
+
+      .strength-text {
+        text-align: center;
+        font-weight: 600;
+        color: var(--purple-dark);
+        font-size: 14px;
+      }
+
+      /* Floating animation */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0);
+        }
+        50% {
+          transform: translateY(-15px) rotate(5deg);
+        }
+      }
+
+      /* Visual animations */
+      @keyframes sparkle {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive container */
+      @media (max-height: 700px) {
         .app-container {
-            width: 420px;
-            height: 670px; /* Increased height to fit all content properly */
-            display: flex;
-            flex-direction: column;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            position: relative;
-            animation: floatContainer 32s ease-in-out infinite;
+          height: 660px; /* Ensure minimum height even on smaller screens */
         }
-        
-        @keyframes floatContainer {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(0.5deg); }
-        }
-        
-        /* Glowing background effect */
-        .glow {
-            position: absolute;
-            border-radius: var(--radius-lg);
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--gradient-primary);
-            filter: blur(30px);
-            opacity: 0.3;
-            z-index: -1;
-        }
-        
-        /* Background sparkles */
-        .sparkle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: white;
-            pointer-events: none;
-            opacity: 0;
-            z-index: -1;
-        }
-        
-        /* Header section */
-        .app-header {
-            -webkit-app-region: drag;
-            position: relative;
-            padding: 20px 15px 10px;
-            background: var(--gradient-primary);
-            text-align: center;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-        }
-        
-        .title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 22px;
-            color: white;
-            margin: 0;
-            padding: 10px 0;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .emoji-row {
-            display: flex;
-            justify-content: space-around;
-            margin: 5px 0;
-        }
-        
-        .emoji {
-            font-size: 20px;
-            animation: bounce 2s infinite;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-        
-        .emoji:nth-child(1) { animation-delay: 0.0s; }
-        .emoji:nth-child(2) { animation-delay: 0.2s; }
-        .emoji:nth-child(3) { animation-delay: 0.4s; }
-        .emoji:nth-child(4) { animation-delay: 0.6s; }
-        .emoji:nth-child(5) { animation-delay: 0.8s; }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Content area */
-        .app-content {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        /* Card-like sections */
-        .card {
-            padding: 15px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
-            animation: cardPulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes cardPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: inherit;
-            background: linear-gradient(45deg, var(--pink-light), var(--purple-light), var(--blue-light));
-            z-index: -1;
-            opacity: 0.5;
-        }
-        
-        .card-length {
-            background: var(--blue-light);
-        }
-        
-        .card-length::before {
-            background: var(--gradient-blue);
-        }
-        
-        .card-options {
-            background: var(--green-light);
-        }
-        
-        .card-options::before {
-            background: var(--gradient-green);
-        }
-        
-        .card-preview {
-            background: var(--yellow-light);
-        }
-        
-        .card-preview::before {
-            background: var(--gradient-yellow);
-        }
-        
-        .card-strength {
-            background: var(--purple-light);
-        }
-        
-        .card-strength::before {
-            background: var(--gradient-secondary);
-        }
-        
-        .card-title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: var(--black);
-        }
-        
-        /* Sliders */
-        .slider-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.6);
-            outline: none;
-            margin: 10px 0;
-        }
-        
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            border: 2px solid white;
-        }
-        
-        .slider::-moz-range-thumb {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--pink-mid);
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            border: 2px solid white;
-        }
-        
-        .slider-value {
-            font-weight: 600;
-            color: var(--blue-dark);
-            margin-top: 5px;
-            font-size: 14px;
-        }
-        
-        /* Checkboxes */
-        .checkbox-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        
-        .cute-checkbox {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            font-size: 14px;
-        }
-        
-        .cute-checkbox input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-        
-        .checkmark {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-            background: white;
-            border: 2px solid var(--green-mid);
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
-        }
-        
-        .cute-checkbox:hover .checkmark {
-            transform: scale(1.05);
-            border-color: var(--green-dark);
-        }
-        
-        .cute-checkbox input:checked ~ .checkmark {
-            background: var(--green-mid);
-            border-color: var(--green-dark);
-        }
-        
-        .checkmark:after {
-            content: '';
-            position: absolute;
-            display: none;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-        
-        .cute-checkbox input:checked ~ .checkmark:after {
-            display: block;
-        }
-        
-        /* Password display */
-        .password-display {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid var(--pink-light);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-inner);
-            font-family: var(--font-sans);
-            font-size: 15px;
-            color: var(--black);
-            margin: 5px 0;
-            text-align: center;
-            letter-spacing: 2px;
-            font-family: 'Quicksand', sans-serif;
-            transition: all 0.3s ease;
-        }
-        
-        .password-display:focus {
-            border-color: var(--pink-mid);
-            box-shadow: 0 0 15px rgba(255, 131, 213, 0.3);
-        }
-        
-        /* Generate button */
-        .generate-button {
-            background: var(--gradient-primary);
-            color: white;
-            border: 3px solid white;
-            border-radius: var(--radius-full);
-            padding: 14px 20px;
-            font-family: var(--font-display);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 131, 213, 0.4);
-            transition: all 0.2s ease;
-            margin: 5px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            animation: buttonGlow 2s ease-in-out infinite;
-        }
-        
-        @keyframes buttonGlow {
-            0%, 100% { box-shadow: 0 4px 15px rgba(255, 131, 213, 0.4); }
-            50% { box-shadow: 0 4px 25px rgba(255, 131, 213, 0.7); }
-        }
-        
-        .generate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .generate-button:active {
-            transform: translateY(1px);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        /* Strength meter */
-        .strength-meter {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        
-        .strength-meter-fill {
-            height: 100%;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-full);
-            transition: width 0.3s ease;
-        }
-        
-        .strength-text {
-            text-align: center;
-            font-weight: 600;
-            color: var(--purple-dark);
-            font-size: 14px;
-        }
-        
-        /* Floating animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-        
-        /* Visual animations */
-        @keyframes sparkle {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-        
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Responsive container */
-        @media (max-height: 700px) {
-            .app-container {
-                height: 660px; /* Ensure minimum height even on smaller screens */
-            }
-            
-            .app-content {
-                gap: 8px;
-            }
-            
-            .card {
-                padding: 12px;
-            }
-        }
-        
-        /* Heart burst animation */
-        .heart-burst {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1000;
-        }
-    </style>
-</head>
-<body>
-    <div class="app-container">
-        <!-- Glowing background effect -->
-        <div class="glow"></div>
-        
-        <!-- Header section -->
-        <div class="app-header">
-            <h1 class="title">✨ PassMagic ✨</h1>
-            <div class="emoji-row">
-                <span class="emoji">💖</span>
-                <span class="emoji">✨</span>
-                <span class="emoji">🦄</span>
-                <span class="emoji">🌈</span>
-                <span class="emoji">💖</span>
-            </div>
-        </div>
-        
-        <!-- Main content -->
-        <div class="app-content">
-            <!-- Password length card -->
-            <div class="card card-length">
-                <h2 class="card-title">🌈 Password Length</h2>
-                <div class="slider-container">
-                    <input type="range" min="8" max="32" value="16" class="slider" id="lengthSlider">
-                    <div class="slider-value" id="lengthValue">⭐ 16 characters</div>
-                </div>
-            </div>
-            
-            <!-- Character options card -->
-            <div class="card card-options">
-                <h2 class="card-title">⭐ Character Options</h2>
-                <div class="checkbox-grid">
-                    <label class="cute-checkbox">
-                        <input type="checkbox" id="uppercaseCheck" checked>
-                        <span class="checkmark"></span>
-                        Uppercase Letters
-                    </label>
-                    <label class="cute-checkbox">
-                        <input type="checkbox" id="digitsCheck" checked>
-                        <span class="checkmark"></span>
-                        Digits
-                    </label>
-                    <label class="cute-checkbox">
-                        <input type="checkbox" id="lowercaseCheck" checked>
-                        <span class="checkmark"></span>
-                        Lowercase Letters
-                    </label>
-                    <label class="cute-checkbox">
-                        <input type="checkbox" id="symbolsCheck" checked>
-                        <span class="checkmark"></span>
-                        Special Symbols
-                    </label>
-                </div>
-            </div>
-            
-            <!-- Password preview card -->
-            <div class="card card-preview">
-                <h2 class="card-title">🔒 Password Preview</h2>
-                <input type="text" id="passwordDisplay" class="password-display" readonly>
-            </div>
-            
-            <!-- Generate button -->
-            <button id="generateButton" class="generate-button">
-                <span>✨</span>
-                Generate Password
-                <span>✨</span>
-            </button>
-            
-            <!-- Password strength card -->
-            <div class="card card-strength">
-                <h2 class="card-title">🦄 Password Strength</h2>
-                <div class="strength-meter">
-                    <div class="strength-meter-fill" id="strengthFill" style="width: 75%"></div>
-                </div>
-                <div class="strength-text" id="strengthText">Strong</div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Elements
-        const lengthSlider = document.getElementById('lengthSlider');
-        const lengthValue = document.getElementById('lengthValue');
-        const uppercaseCheck = document.getElementById('uppercaseCheck');
-        const lowercaseCheck = document.getElementById('lowercaseCheck');
-        const digitsCheck = document.getElementById('digitsCheck');
-        const symbolsCheck = document.getElementById('symbolsCheck');
-        const passwordDisplay = document.getElementById('passwordDisplay');
-        const generateButton = document.getElementById('generateButton');
-        const strengthFill = document.getElementById('strengthFill');
-        const strengthText = document.getElementById('strengthText');
-        
-        // Get electron interface if available
-        const electron = window.require && window.require('electron');
-        const ipcRenderer = electron ? electron.ipcRenderer : null;
-        
-        // Theme handling
-        ipcRenderer.on('apply-theme', (event, theme) => {
-            document.documentElement.setAttribute('data-theme', theme);
-        });
-        
-        // Add animations to elements on load
-        document.querySelectorAll('.card').forEach((card, index) => {
-            card.style.animation = `fadeIn 0.5s ${0.1 * index}s both`;
-        });
-        
-        // Create background sparkles
-        function createSparkles() {
-            const container = document.body;
-            
-            for (let i = 0; i < 30; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                
-                // Random position and size
-                const size = 2 + Math.random() * 4;
-                const left = Math.random() * 100;
-                const top = Math.random() * 100;
-                
-                // Apply styles
-                sparkle.style.width = `${size}px`;
-                sparkle.style.height = `${size}px`;
-                sparkle.style.left = `${left}%`;
-                sparkle.style.top = `${top}%`;
-                
-                // Animation
-                sparkle.style.animation = `sparkle ${2 + Math.random() * 4}s infinite ${Math.random() * 4}s`;
-                
-                container.appendChild(sparkle);
-            }
-        }
-        
-        // Create heart burst effect on generate
-        function createHeartBurst() {
-            const heartEmojis = ['💖', '💕', '💗', '💓', '💞', '✨', '🌈'];
-            const container = document.body;
-            
-            // Create heart burst from button position
-            const buttonRect = generateButton.getBoundingClientRect();
-            const centerX = buttonRect.left + buttonRect.width / 2;
-            const centerY = buttonRect.top + buttonRect.height / 2;
-            
-            for (let i = 0; i < 15; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-burst';
-                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                heart.style.left = `${centerX}px`;
-                heart.style.top = `${centerY}px`;
-                heart.style.fontSize = `${16 + Math.random() * 12}px`;
-                heart.style.position = 'fixed';
-                heart.style.zIndex = '1000';
-                heart.style.transform = 'translate(-50%, -50%)';
-                heart.style.transition = 'all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)';
-                heart.style.opacity = '1';
-                
-                container.appendChild(heart);
-                
-                // Animate outward
-                setTimeout(() => {
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = 60 + Math.random() * 100;
-                    const x = Math.cos(angle) * distance;
-                    const y = Math.sin(angle) * distance;
-                    
-                    heart.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${Math.random() * 360}deg)`;
-                    heart.style.opacity = '0';
-                    
-                    // Remove after animation
-                    setTimeout(() => heart.remove(), 1000);
-                }, 10);
-            }
-        }
-        
-        // Event Listeners
-        lengthSlider.addEventListener('input', updateUI);
-        uppercaseCheck.addEventListener('change', updateUI);
-        lowercaseCheck.addEventListener('change', updateUI);
-        digitsCheck.addEventListener('change', updateUI);
-        symbolsCheck.addEventListener('change', updateUI);
-        generateButton.addEventListener('click', generateAndCopy);
-        
-        // Button ripple effect
-        generateButton.addEventListener('mousedown', (e) => {
-            const rect = e.target.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.width = '0';
-            ripple.style.height = '0';
-            ripple.style.borderRadius = '50%';
-            ripple.style.transform = 'translate(-50%, -50%)';
-            ripple.style.background = 'rgba(255, 255, 255, 0.4)';
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            ripple.style.pointerEvents = 'none';
-            
-            generateButton.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.style.width = '300px';
-                ripple.style.height = '300px';
-                ripple.style.opacity = '0';
-                ripple.style.transition = 'all 0.6s ease-out';
-                
-                setTimeout(() => ripple.remove(), 600);
-            }, 10);
-        });
-        
-        // Initialize
-        function init() {
-            generatePassword();
-            createSparkles();
-            
-            // Animate all cards on load
-            document.querySelectorAll('.card').forEach((card, index) => {
-                card.style.animation = `fadeIn 0.5s ${0.1 * index}s both`;
-            });
-        }
-        
-        // Functions
-        function updateUI() {
-            const length = lengthSlider.value;
-            lengthValue.textContent = `⭐ ${length} characters`;
-            generatePassword();
-        }
-        
-        function generatePassword() {
-            // Ensure at least one option is selected
-            if (!uppercaseCheck.checked && !lowercaseCheck.checked && 
-                !digitsCheck.checked && !symbolsCheck.checked) {
-                uppercaseCheck.checked = true;
-                
-                const selectedOption = document.querySelector('.cute-checkbox:first-child');
-                selectedOption.classList.add('pulse');
-                setTimeout(() => selectedOption.classList.remove('pulse'), 1000);
-            }
-            
-            // Character sets
-            const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-            const digits = '0123456789';
-            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-            
-            // Create character pool
-            let charPool = '';
-            if (uppercaseCheck.checked) charPool += uppercase;
-            if (lowercaseCheck.checked) charPool += lowercase;
-            if (digitsCheck.checked) charPool += digits;
-            if (symbolsCheck.checked) charPool += symbols;
-            
-            const length = lengthSlider.value;
-            
-            // Generate initial password
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * charPool.length);
-                password += charPool[randomIndex];
-            }
-            
-            // Ensure at least one character from each selected group
-            while (true) {
-                const hasUpper = uppercaseCheck.checked ? 
-                    [...password].some(c => uppercase.includes(c)) : true;
-                const hasLower = lowercaseCheck.checked ? 
-                    [...password].some(c => lowercase.includes(c)) : true;
-                const hasDigit = digitsCheck.checked ? 
-                    [...password].some(c => digits.includes(c)) : true;
-                const hasSymbol = symbolsCheck.checked ? 
-                    [...password].some(c => symbols.includes(c)) : true;
-                
-                if (hasUpper && hasLower && hasDigit && hasSymbol) break;
-                
-                // Regenerate password
-                password = '';
-                for (let i = 0; i < length; i++) {
-                    const randomIndex = Math.floor(Math.random() * charPool.length);
-                    password += charPool[randomIndex];
-                }
-            }
-            
-            // Update display with animation
-            const currentPassword = passwordDisplay.value;
-            if (currentPassword !== password) {
-                passwordDisplay.classList.add('fade-transition');
-                setTimeout(() => {
-                    passwordDisplay.value = password;
-                    passwordDisplay.classList.remove('fade-transition');
-                }, 150);
-            } else {
-                passwordDisplay.value = password;
-            }
-            
-            // Update strength meter
-            const strength = calculateStrength(password);
-            strengthFill.style.width = `${strength * 100}%`;
-            
-            if (strength < 0.33) {
-                strengthText.textContent = 'Weak';
-                strengthFill.style.background = 'linear-gradient(135deg, #FF8A8A 0%, #FF5252 100%)';
-            } else if (strength < 0.66) {
-                strengthText.textContent = 'Medium';
-                strengthFill.style.background = 'linear-gradient(135deg, #FFDB4A 0%, #FFC107 100%)';
-            } else {
-                strengthText.textContent = 'Strong';
-                strengthFill.style.background = 'linear-gradient(135deg, #85FFBF 0%, #4AFFBE 100%)';
-            }
-        }
-        
-        function calculateStrength(password) {
-            // Length factor (40% of the score)
-            const lengthFactor = Math.min(1.0, password.length / 20) * 0.4;
-            
-            // Complexity (60% of the score)
-            let complexity = 0;
-            
-            const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-            const digits = '0123456789';
-            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-            
-            if ([...password].some(c => uppercase.includes(c))) complexity += 0.25;
-            if ([...password].some(c => lowercase.includes(c))) complexity += 0.25;
-            if ([...password].some(c => digits.includes(c))) complexity += 0.25;
-            if ([...password].some(c => symbols.includes(c))) complexity += 0.25;
-            
-            return lengthFactor + (complexity * 0.6);
-        }
-        
-        function generateAndCopy() {
-            generatePassword();
-            const password = passwordDisplay.value;
-            
-            // Visual feedback
-            createHeartBurst();
-            
-            // Add copy success animation
-            generateButton.classList.add('active');
-            setTimeout(() => generateButton.classList.remove('active'), 300);
-            
-            
-            if (ipcRenderer) {
-                // Use Electron IPC to copy and paste
-                ipcRenderer.send('copy-and-paste', password);
-            } else {
-                // Fallback for regular browser
-                navigator.clipboard.writeText(password).catch(function() {
-                    // Fallback for clipboard API not supported
-                    passwordDisplay.select();
-                    document.execCommand('copy');
 
-                });
-            }
+        .app-content {
+          gap: 8px;
         }
-        
-        // Handle keyboard shortcuts
-        document.addEventListener('keydown', function(event) {
-            // Use Ctrl+Shift+P as a browser-based fallback for F13
-            if (event.ctrlKey && event.shiftKey && event.key === 'P') {
-                event.preventDefault();
-                generateAndCopy();
-            }
-            
-            // Close window on Escape
-            if (event.key === 'Escape') {
-                ipcRenderer.send('hide-window');
-            }
+
+        .card {
+          padding: 12px;
+        }
+      }
+
+      /* Heart burst animation */
+      .heart-burst {
+        position: fixed;
+        pointer-events: none;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Glowing background effect -->
+      <div class="glow"></div>
+
+      <!-- Header section -->
+      <div class="app-header">
+        <h1 class="title">✨ PassMagic ✨</h1>
+        <div class="emoji-row">
+          <span class="emoji">💖</span>
+          <span class="emoji">✨</span>
+          <span class="emoji">🦄</span>
+          <span class="emoji">🌈</span>
+          <span class="emoji">💖</span>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="app-content">
+        <!-- Password length card -->
+        <div class="card card-length">
+          <h2 class="card-title">🌈 Password Length</h2>
+          <div class="slider-container">
+            <input
+              type="range"
+              min="8"
+              max="32"
+              value="16"
+              class="slider"
+              id="lengthSlider"
+            />
+            <div class="slider-value" id="lengthValue">⭐ 16 characters</div>
+          </div>
+        </div>
+
+        <!-- Character options card -->
+        <div class="card card-options">
+          <h2 class="card-title">⭐ Character Options</h2>
+          <div class="checkbox-grid">
+            <label class="cute-checkbox">
+              <input type="checkbox" id="uppercaseCheck" checked />
+              <span class="checkmark"></span>
+              Uppercase Letters
+            </label>
+            <label class="cute-checkbox">
+              <input type="checkbox" id="digitsCheck" checked />
+              <span class="checkmark"></span>
+              Digits
+            </label>
+            <label class="cute-checkbox">
+              <input type="checkbox" id="lowercaseCheck" checked />
+              <span class="checkmark"></span>
+              Lowercase Letters
+            </label>
+            <label class="cute-checkbox">
+              <input type="checkbox" id="symbolsCheck" checked />
+              <span class="checkmark"></span>
+              Special Symbols
+            </label>
+          </div>
+        </div>
+
+        <!-- Password preview card -->
+        <div class="card card-preview">
+          <h2 class="card-title">🔒 Password Preview</h2>
+          <input
+            type="text"
+            id="passwordDisplay"
+            class="password-display"
+            readonly
+          />
+        </div>
+
+        <!-- Generate button -->
+        <button id="generateButton" class="generate-button">
+          <span>✨</span>
+          Generate Password
+          <span>✨</span>
+        </button>
+
+        <!-- Password strength card -->
+        <div class="card card-strength">
+          <h2 class="card-title">🦄 Password Strength</h2>
+          <div class="strength-meter">
+            <div
+              class="strength-meter-fill"
+              id="strengthFill"
+              style="width: 75%"
+            ></div>
+          </div>
+          <div class="strength-text" id="strengthText">Strong</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Elements
+      const lengthSlider = document.getElementById("lengthSlider");
+      const lengthValue = document.getElementById("lengthValue");
+      const uppercaseCheck = document.getElementById("uppercaseCheck");
+      const lowercaseCheck = document.getElementById("lowercaseCheck");
+      const digitsCheck = document.getElementById("digitsCheck");
+      const symbolsCheck = document.getElementById("symbolsCheck");
+      const passwordDisplay = document.getElementById("passwordDisplay");
+      const generateButton = document.getElementById("generateButton");
+      const strengthFill = document.getElementById("strengthFill");
+      const strengthText = document.getElementById("strengthText");
+
+      // Get electron interface if available
+      const electron = window.require && window.require("electron");
+      const ipcRenderer = electron ? electron.ipcRenderer : null;
+
+      // Theme handling
+      ipcRenderer.on("apply-theme", (event, theme) => {
+        document.documentElement.setAttribute("data-theme", theme);
+      });
+
+      // Add animations to elements on load
+      document.querySelectorAll(".card").forEach((card, index) => {
+        card.style.animation = `fadeIn 0.5s ${0.1 * index}s both`;
+      });
+
+      // Create background sparkles
+      function createSparkles() {
+        const container = document.body;
+
+        for (let i = 0; i < 30; i++) {
+          const sparkle = document.createElement("div");
+          sparkle.className = "sparkle";
+
+          // Random position and size
+          const size = 2 + Math.random() * 4;
+          const left = Math.random() * 100;
+          const top = Math.random() * 100;
+
+          // Apply styles
+          sparkle.style.width = `${size}px`;
+          sparkle.style.height = `${size}px`;
+          sparkle.style.left = `${left}%`;
+          sparkle.style.top = `${top}%`;
+
+          // Animation
+          sparkle.style.animation = `sparkle ${
+            2 + Math.random() * 4
+          }s infinite ${Math.random() * 4}s`;
+
+          container.appendChild(sparkle);
+        }
+      }
+
+      // Create heart burst effect on generate
+      function createHeartBurst() {
+        const heartEmojis = ["💖", "💕", "💗", "💓", "💞", "✨", "🌈"];
+        const container = document.body;
+
+        // Create heart burst from button position
+        const buttonRect = generateButton.getBoundingClientRect();
+        const centerX = buttonRect.left + buttonRect.width / 2;
+        const centerY = buttonRect.top + buttonRect.height / 2;
+
+        for (let i = 0; i < 15; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart-burst";
+          heart.textContent =
+            heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+          heart.style.left = `${centerX}px`;
+          heart.style.top = `${centerY}px`;
+          heart.style.fontSize = `${16 + Math.random() * 12}px`;
+          heart.style.position = "fixed";
+          heart.style.zIndex = "1000";
+          heart.style.transform = "translate(-50%, -50%)";
+          heart.style.transition =
+            "all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)";
+          heart.style.opacity = "1";
+
+          container.appendChild(heart);
+
+          // Animate outward
+          setTimeout(() => {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 60 + Math.random() * 100;
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+
+            heart.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${
+              Math.random() * 360
+            }deg)`;
+            heart.style.opacity = "0";
+
+            // Remove after animation
+            setTimeout(() => heart.remove(), 1000);
+          }, 10);
+        }
+      }
+
+      // Event Listeners
+      lengthSlider.addEventListener("input", updateUI);
+      uppercaseCheck.addEventListener("change", updateUI);
+      lowercaseCheck.addEventListener("change", updateUI);
+      digitsCheck.addEventListener("change", updateUI);
+      symbolsCheck.addEventListener("change", updateUI);
+      generateButton.addEventListener("click", generateAndCopy);
+
+      // Button ripple effect
+      generateButton.addEventListener("mousedown", (e) => {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const ripple = document.createElement("span");
+        ripple.style.position = "absolute";
+        ripple.style.width = "0";
+        ripple.style.height = "0";
+        ripple.style.borderRadius = "50%";
+        ripple.style.transform = "translate(-50%, -50%)";
+        ripple.style.background = "rgba(255, 255, 255, 0.4)";
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.style.pointerEvents = "none";
+
+        generateButton.appendChild(ripple);
+
+        setTimeout(() => {
+          ripple.style.width = "300px";
+          ripple.style.height = "300px";
+          ripple.style.opacity = "0";
+          ripple.style.transition = "all 0.6s ease-out";
+
+          setTimeout(() => ripple.remove(), 600);
+        }, 10);
+      });
+
+      // Initialize
+      function init() {
+        generatePassword();
+        createSparkles();
+
+        // Animate all cards on load
+        document.querySelectorAll(".card").forEach((card, index) => {
+          card.style.animation = `fadeIn 0.5s ${0.1 * index}s both`;
         });
-        
-        // Initialize the app
-        window.addEventListener('DOMContentLoaded', init);
+      }
+
+      // Functions
+      function updateUI() {
+        const length = lengthSlider.value;
+        lengthValue.textContent = `⭐ ${length} characters`;
+        generatePassword();
+      }
+
+      function generatePassword() {
+        // Ensure at least one option is selected
+        if (
+          !uppercaseCheck.checked &&
+          !lowercaseCheck.checked &&
+          !digitsCheck.checked &&
+          !symbolsCheck.checked
+        ) {
+          uppercaseCheck.checked = true;
+
+          const selectedOption = document.querySelector(
+            ".cute-checkbox:first-child"
+          );
+          selectedOption.classList.add("pulse");
+          setTimeout(() => selectedOption.classList.remove("pulse"), 1000);
+        }
+
+        // Character sets
+        const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const digits = "0123456789";
+        const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+        // Create character pool
+        let charPool = "";
+        if (uppercaseCheck.checked) charPool += uppercase;
+        if (lowercaseCheck.checked) charPool += lowercase;
+        if (digitsCheck.checked) charPool += digits;
+        if (symbolsCheck.checked) charPool += symbols;
+
+        const length = lengthSlider.value;
+
+        // Generate initial password
+        let password = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * charPool.length);
+          password += charPool[randomIndex];
+        }
+
+        // Ensure at least one character from each selected group
+        while (true) {
+          const hasUpper = uppercaseCheck.checked
+            ? [...password].some((c) => uppercase.includes(c))
+            : true;
+          const hasLower = lowercaseCheck.checked
+            ? [...password].some((c) => lowercase.includes(c))
+            : true;
+          const hasDigit = digitsCheck.checked
+            ? [...password].some((c) => digits.includes(c))
+            : true;
+          const hasSymbol = symbolsCheck.checked
+            ? [...password].some((c) => symbols.includes(c))
+            : true;
+
+          if (hasUpper && hasLower && hasDigit && hasSymbol) break;
+
+          // Regenerate password
+          password = "";
+          for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charPool.length);
+            password += charPool[randomIndex];
+          }
+        }
+
+        // Update display with animation
+        const currentPassword = passwordDisplay.value;
+        if (currentPassword !== password) {
+          passwordDisplay.classList.add("fade-transition");
+          setTimeout(() => {
+            passwordDisplay.value = password;
+            passwordDisplay.classList.remove("fade-transition");
+          }, 150);
+        } else {
+          passwordDisplay.value = password;
+        }
+
+        // Update strength meter
+        const strength = calculateStrength(password);
+        strengthFill.style.width = `${strength * 100}%`;
+
+        if (strength < 0.33) {
+          strengthText.textContent = "Weak";
+          strengthFill.style.background =
+            "linear-gradient(135deg, #FF8A8A 0%, #FF5252 100%)";
+        } else if (strength < 0.66) {
+          strengthText.textContent = "Medium";
+          strengthFill.style.background =
+            "linear-gradient(135deg, #FFDB4A 0%, #FFC107 100%)";
+        } else {
+          strengthText.textContent = "Strong";
+          strengthFill.style.background =
+            "linear-gradient(135deg, #85FFBF 0%, #4AFFBE 100%)";
+        }
+      }
+
+      function calculateStrength(password) {
+        // Length factor (40% of the score)
+        const lengthFactor = Math.min(1.0, password.length / 20) * 0.4;
+
+        // Complexity (60% of the score)
+        let complexity = 0;
+
+        const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const digits = "0123456789";
+        const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+        if ([...password].some((c) => uppercase.includes(c)))
+          complexity += 0.25;
+        if ([...password].some((c) => lowercase.includes(c)))
+          complexity += 0.25;
+        if ([...password].some((c) => digits.includes(c))) complexity += 0.25;
+        if ([...password].some((c) => symbols.includes(c))) complexity += 0.25;
+
+        return lengthFactor + complexity * 0.6;
+      }
+
+      function generateAndCopy() {
+        generatePassword();
+        const password = passwordDisplay.value;
+
+        // Visual feedback
+        createHeartBurst();
+
+        // Add copy success animation
+        generateButton.classList.add("active");
+        setTimeout(() => generateButton.classList.remove("active"), 300);
+
+        if (ipcRenderer) {
+          // Use Electron IPC to copy and paste
+          ipcRenderer.send("copy-and-paste", password);
+        } else {
+          // Fallback for regular browser
+          navigator.clipboard.writeText(password).catch(function () {
+            // Fallback for clipboard API not supported
+            passwordDisplay.select();
+            document.execCommand("copy");
+          });
+        }
+      }
+
+      // Handle keyboard shortcuts
+      document.addEventListener("keydown", function (event) {
+        // Use Ctrl+Shift+P as a browser-based fallback for F13
+        if (event.ctrlKey && event.shiftKey && event.key === "P") {
+          event.preventDefault();
+          generateAndCopy();
+        }
+
+        // Close window on Escape
+        if (event.key === "Escape") {
+          ipcRenderer.send("hide-window");
+        }
+      });
+
+      // Initialize the app
+      window.addEventListener("DOMContentLoaded", init);
     </script>
-</body>
+  </body>
 </html>

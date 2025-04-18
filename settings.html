@@ -1,413 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>✨ PassMagic Settings ✨</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap');
-        
-        :root {
-            /* Light theme (default) */
-            --gradient-primary: linear-gradient(135deg, #FFB7E5 0%, #FF85D5 100%);
-            --bg-color: rgba(255, 255, 255, 0.95);
-            --text-color: #444444;
-            --card-bg: var(--purple-light);
-            
-            /* Shared colors */
-            --pink-light: #FFE5F3;
-            --pink-mid: #FFB7E5;
-            --pink-dark: #FF85D5;
-            --purple-light: #F3E5FF;
-            --purple-mid: #E2B4FF;
-            --purple-dark: #D07BFF;
-            
-            /* Fonts */
-            --font-sans: 'Nunito', sans-serif;
-            --font-display: 'Quicksand', sans-serif;
-            
-            /* Borders */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap");
 
-        [data-theme="dark"] {
-            --gradient-primary: linear-gradient(135deg, #D07BFF 0%, #9D4ED8 100%);
-            --bg-color: rgba(40, 40, 50, 0.95);
-            --text-color: #FFFFFF;
-            --card-bg: rgba(60, 60, 70, 0.8);
-        }
+      :root {
+        /* Light theme (default) */
+        --gradient-primary: linear-gradient(135deg, #ffb7e5 0%, #ff85d5 100%);
+        --bg-color: rgba(255, 255, 255, 0.95);
+        --text-color: #444444;
+        --card-bg: var(--purple-light);
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* Shared colors */
+        --pink-light: #ffe5f3;
+        --pink-mid: #ffb7e5;
+        --pink-dark: #ff85d5;
+        --purple-light: #f3e5ff;
+        --purple-mid: #e2b4ff;
+        --purple-dark: #d07bff;
 
-        body {
-            font-family: var(--font-sans);
-            color: var(--text-color);
-            background: transparent;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        /* Fonts */
+        --font-sans: "Nunito", sans-serif;
+        --font-display: "Quicksand", sans-serif;
 
-        .settings-container {
-            width: 420px;
-            background: var(--bg-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-            position: relative;
-        }
+        /* Borders */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+      }
 
-        .settings-header {
-            -webkit-app-region: drag;
-            background: var(--gradient-primary);
-            padding: 15px;
-            text-align: center;
-            color: white;
-        }
+      [data-theme="dark"] {
+        --gradient-primary: linear-gradient(135deg, #d07bff 0%, #9d4ed8 100%);
+        --bg-color: rgba(40, 40, 50, 0.95);
+        --text-color: #ffffff;
+        --card-bg: rgba(60, 60, 70, 0.8);
+      }
 
-        .settings-title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            margin: 0;
-            padding: 5px 0;
-            font-size: 1.5em;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        .settings-content {
-            padding: 15px;
-            max-height: 550px;
-            overflow-y: auto;
-        }
+      body {
+        font-family: var(--font-sans);
+        color: var(--text-color);
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-        .settings-section {
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 12px;
-            margin-bottom: 12px;
-        }
+      .settings-container {
+        width: 420px;
+        background: var(--bg-color);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
 
-        .settings-section h3 {
-            font-family: var(--font-display);
-            margin-bottom: 12px;
-            color: var(--text-color);
-            font-size: 1em;
-        }
+      .settings-header {
+        -webkit-app-region: drag;
+        background: var(--gradient-primary);
+        padding: 15px;
+        text-align: center;
+        color: white;
+      }
 
-        .setting-item {
-            margin-bottom: 12px;
-        }
+      .settings-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        margin: 0;
+        padding: 5px 0;
+        font-size: 1.5em;
+      }
 
-        .setting-item label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--text-color);
-            font-size: 0.9em;
-        }
+      .settings-content {
+        padding: 15px;
+        max-height: 550px;
+        overflow-y: auto;
+      }
 
-        .setting-item select,
-        .setting-item input[type="text"] {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            border: 2px solid var(--purple-mid);
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-sans);
-            font-size: 0.9em;
-        }
+      .settings-section {
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 12px;
+        margin-bottom: 12px;
+      }
 
-        /* Cute checkbox styling */
-        .setting-item.checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
+      .settings-section h3 {
+        font-family: var(--font-display);
+        margin-bottom: 12px;
+        color: var(--text-color);
+        font-size: 1em;
+      }
 
-        .cute-checkbox {
-            position: relative;
-            display: inline-block;
-        }
+      .setting-item {
+        margin-bottom: 12px;
+      }
 
-        .cute-checkbox input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
+      .setting-item label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--text-color);
+        font-size: 0.9em;
+      }
 
-        .checkmark {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            background: var(--bg-color);
-            border: 2px solid var(--pink-mid);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
+      .setting-item select,
+      .setting-item input[type="text"] {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        border: 2px solid var(--purple-mid);
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-sans);
+        font-size: 0.9em;
+      }
 
-        .cute-checkbox:hover .checkmark {
-            transform: scale(1.1);
-            border-color: var(--pink-dark);
-            box-shadow: 0 0 10px rgba(255, 133, 213, 0.3);
-        }
+      /* Cute checkbox styling */
+      .setting-item.checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+      }
 
-        .checkmark:before {
-            content: '💖';
-            font-size: 14px;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.2s ease;
-        }
+      .cute-checkbox {
+        position: relative;
+        display: inline-block;
+      }
 
-        .cute-checkbox input:checked ~ .checkmark {
-            background: var(--pink-light);
-            border-color: var(--pink-dark);
-        }
+      .cute-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
 
-        .cute-checkbox input:checked ~ .checkmark:before {
-            opacity: 1;
-            transform: scale(1);
-        }
+      .checkmark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background: var(--bg-color);
+        border: 2px solid var(--pink-mid);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
 
-        .save-button {
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-full);
-            padding: 12px 24px;
-            font-family: var(--font-display);
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            transition: transform 0.2s;
-            font-size: 1em;
-        }
+      .cute-checkbox:hover .checkmark {
+        transform: scale(1.1);
+        border-color: var(--pink-dark);
+        box-shadow: 0 0 10px rgba(255, 133, 213, 0.3);
+      }
 
-        .save-button:hover {
-            transform: translateY(-2px);
-        }
+      .checkmark:before {
+        content: "💖";
+        font-size: 14px;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.2s ease;
+      }
 
-        .save-button:active {
-            transform: translateY(0);
-        }
+      .cute-checkbox input:checked ~ .checkmark {
+        background: var(--pink-light);
+        border-color: var(--pink-dark);
+      }
 
-        .hotkey-input {
-            position: relative;
-            width: 100%;
-        }
+      .cute-checkbox input:checked ~ .checkmark:before {
+        opacity: 1;
+        transform: scale(1);
+      }
 
-        .hotkey-input input {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            border: 2px solid var(--purple-mid);
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-sans);
-            text-align: center;
-            font-size: 0.9em;
-            cursor: pointer;
-        }
+      .save-button {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-full);
+        padding: 12px 24px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 15px;
+        transition: transform 0.2s;
+        font-size: 1em;
+      }
 
-        .hotkey-input input:focus {
-            border-color: var(--pink-dark);
-            box-shadow: 0 0 15px rgba(255, 133, 213, 0.3);
-            outline: none;
-        }
+      .save-button:hover {
+        transform: translateY(-2px);
+      }
 
-        .hotkey-input.recording input {
-            background: var(--pink-light);
-            border-color: var(--pink-dark);
-        }
+      .save-button:active {
+        transform: translateY(0);
+      }
 
-        /* Cute animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+      .hotkey-input {
+        position: relative;
+        width: 100%;
+      }
 
-        .save-success {
-            animation: pulse 0.3s ease;
+      .hotkey-input input {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        border: 2px solid var(--purple-mid);
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-sans);
+        text-align: center;
+        font-size: 0.9em;
+        cursor: pointer;
+      }
+
+      .hotkey-input input:focus {
+        border-color: var(--pink-dark);
+        box-shadow: 0 0 15px rgba(255, 133, 213, 0.3);
+        outline: none;
+      }
+
+      .hotkey-input.recording input {
+        background: var(--pink-light);
+        border-color: var(--pink-dark);
+      }
+
+      /* Cute animations */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
         }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .save-success {
+        animation: pulse 0.3s ease;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="settings-container">
-        <div class="settings-header">
-            <h1 class="settings-title">⚙️ PassMagic Settings ⚙️</h1>
+      <div class="settings-header">
+        <h1 class="settings-title">⚙️ PassMagic Settings ⚙️</h1>
+      </div>
+      <div class="settings-content">
+        <div class="settings-section">
+          <h3>🎨 Appearance</h3>
+          <div class="setting-item">
+            <label for="theme">Theme</label>
+            <select id="theme">
+              <option value="light">Light Theme</option>
+              <option value="dark">Dark Theme</option>
+              <option value="system">System Default</option>
+            </select>
+          </div>
         </div>
-        <div class="settings-content">
-            <div class="settings-section">
-                <h3>🎨 Appearance</h3>
-                <div class="setting-item">
-                    <label for="theme">Theme</label>
-                    <select id="theme">
-                        <option value="light">Light Theme</option>
-                        <option value="dark">Dark Theme</option>
-                        <option value="system">System Default</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <h3>⌨️ Keyboard Shortcuts</h3>
-                <div class="setting-item">
-                    <label for="hotkey">Generator Hotkey</label>
-                    <div class="hotkey-input">
-                        <input type="text" id="hotkey" placeholder="Click to record shortcut..." readonly>
-                    </div>
-                </div>
-            </div>
 
-            <div class="settings-section">
-                <h3>🚀 Startup</h3>
-                <label class="setting-item checkbox cute-checkbox">
-                    <input type="checkbox" id="autoStart">
-                    <span class="checkmark"></span>
-                    Launch at system startup
-                </label>
+        <div class="settings-section">
+          <h3>⌨️ Keyboard Shortcuts</h3>
+          <div class="setting-item">
+            <label for="hotkey">Generator Hotkey</label>
+            <div class="hotkey-input">
+              <input
+                type="text"
+                id="hotkey"
+                placeholder="Click to record shortcut..."
+                readonly
+              />
             </div>
-
-            <button id="saveSettings" class="save-button">💖 Save Settings 💖</button>
+          </div>
         </div>
+
+        <div class="settings-section">
+          <h3>🚀 Startup</h3>
+          <label class="setting-item checkbox cute-checkbox">
+            <input type="checkbox" id="autoStart" />
+            <span class="checkmark"></span>
+            Launch at system startup
+          </label>
+        </div>
+
+        <button id="saveSettings" class="save-button">
+          💖 Save Settings 💖
+        </button>
+      </div>
     </div>
 
     <script>
-        // Get electron modules
-        const { ipcRenderer } = require('electron');
-        
-        // Elements
-        const themeSelect = document.getElementById('theme');
-        const hotkeyInput = document.getElementById('hotkey');
-        const autoStartCheck = document.getElementById('autoStart');
-        const saveButton = document.getElementById('saveSettings');
-        const hotkeyInputContainer = hotkeyInput.parentElement;
+      // Get electron modules
+      const { ipcRenderer } = require("electron");
 
-        // Load current settings
-        ipcRenderer.on('load-settings', (event, settings) => {
-            themeSelect.value = settings.theme || 'light';
-            hotkeyInput.value = settings.hotkey || 'F13';
-            autoStartCheck.checked = settings.autoStart || false;
-            
-            // Apply theme immediately
-            document.documentElement.setAttribute('data-theme', settings.theme);
-        });
+      // Elements
+      const themeSelect = document.getElementById("theme");
+      const hotkeyInput = document.getElementById("hotkey");
+      const autoStartCheck = document.getElementById("autoStart");
+      const saveButton = document.getElementById("saveSettings");
+      const hotkeyInputContainer = hotkeyInput.parentElement;
 
-        // Request current settings
-        ipcRenderer.send('get-settings');
+      // Load current settings
+      ipcRenderer.on("load-settings", (event, settings) => {
+        themeSelect.value = settings.theme || "light";
+        hotkeyInput.value = settings.hotkey || "F13";
+        autoStartCheck.checked = settings.autoStart || false;
 
-        // Improved hotkey recording
-        let isRecording = false;
-        let currentModifiers = new Set();
-        
-        hotkeyInput.addEventListener('focus', () => {
-            if (hotkeyInput.value === 'Press a key combination...') {
-                hotkeyInput.value = '';
-            }
-            isRecording = true;
-            currentModifiers.clear();
-            hotkeyInputContainer.classList.add('recording');
-        });
+        // Apply theme immediately
+        document.documentElement.setAttribute("data-theme", settings.theme);
+      });
 
-        hotkeyInput.addEventListener('blur', () => {
-            isRecording = false;
-            hotkeyInputContainer.classList.remove('recording');
-            if (!hotkeyInput.value || hotkeyInput.value === 'Press a key...') {
-                hotkeyInput.value = 'F13';
-            }
-        });
+      // Request current settings
+      ipcRenderer.send("get-settings");
 
-        document.addEventListener('keydown', (e) => {
-            if (!isRecording) return;
-            
-            e.preventDefault();
+      // Improved hotkey recording
+      let isRecording = false;
+      let currentModifiers = new Set();
 
-            // Don't allow just modifier keys as the final hotkey
-            if (e.key === 'Control' || e.key === 'Shift' || e.key === 'Alt' || e.key === 'Meta') {
-                if (e.key === 'Control') currentModifiers.add('Ctrl');
-                if (e.key === 'Shift') currentModifiers.add('Shift');
-                if (e.key === 'Alt') currentModifiers.add('Alt');
-                if (e.key === 'Meta') currentModifiers.add('Super');
-                
-                hotkeyInput.value = [...currentModifiers].join('+');
-                return;
-            }
-            
-            // Format the key name
-            let keyName = e.key;
-            if (keyName === ' ') keyName = 'Space';
-            else if (keyName === 'Escape') keyName = 'Esc';
-            else if (keyName.length === 1) keyName = keyName.toUpperCase();
-            else if (keyName === 'ArrowUp') keyName = 'Up';
-            else if (keyName === 'ArrowDown') keyName = 'Down';
-            else if (keyName === 'ArrowLeft') keyName = 'Left';
-            else if (keyName === 'ArrowRight') keyName = 'Right';
-            
-            // Build the final combination
-            const combination = [...currentModifiers, keyName].join('+');
-            
-            // Only set and blur if we have a valid combination
-            if (keyName !== 'Esc' || currentModifiers.size > 0) {
-                hotkeyInput.value = combination;
-                hotkeyInput.blur();
-                isRecording = false;
-            }
-        });
+      hotkeyInput.addEventListener("focus", () => {
+        if (hotkeyInput.value === "Press a key combination...") {
+          hotkeyInput.value = "";
+        }
+        isRecording = true;
+        currentModifiers.clear();
+        hotkeyInputContainer.classList.add("recording");
+      });
 
-        document.addEventListener('keyup', (e) => {
-            if (!isRecording) return;
-            
-            // Remove released modifier from the set
-            if (e.key === 'Control') currentModifiers.delete('Ctrl');
-            if (e.key === 'Shift') currentModifiers.delete('Shift');
-            if (e.key === 'Alt') currentModifiers.delete('Alt');
-            if (e.key === 'Meta') currentModifiers.delete('Super');
-            
-            if (currentModifiers.size > 0) {
-                hotkeyInput.value = [...currentModifiers].join('+');
-            }
-        });
+      hotkeyInput.addEventListener("blur", () => {
+        isRecording = false;
+        hotkeyInputContainer.classList.remove("recording");
+        if (!hotkeyInput.value || hotkeyInput.value === "Press a key...") {
+          hotkeyInput.value = "F13";
+        }
+      });
 
-        // Save settings
-        saveButton.addEventListener('click', () => {
-            const settings = {
-                theme: themeSelect.value,
-                hotkey: hotkeyInput.value,
-                autoStart: autoStartCheck.checked
-            };
-            
-            ipcRenderer.send('save-settings', settings);
-        });
+      document.addEventListener("keydown", (e) => {
+        if (!isRecording) return;
 
-        // Handle settings saved confirmation
-        ipcRenderer.on('settings-saved', () => {
-            saveButton.classList.add('save-success');
-            saveButton.textContent = '✨ Settings Saved! ✨';
-            setTimeout(() => {
-                saveButton.classList.remove('save-success');
-                saveButton.textContent = '💖 Save Settings 💖';
-            }, 2000);
-        });
+        e.preventDefault();
 
-        // Close on escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !isRecording) {
-                ipcRenderer.send('close-settings');
-            }
-        });
+        // Don't allow just modifier keys as the final hotkey
+        if (
+          e.key === "Control" ||
+          e.key === "Shift" ||
+          e.key === "Alt" ||
+          e.key === "Meta"
+        ) {
+          if (e.key === "Control") currentModifiers.add("Ctrl");
+          if (e.key === "Shift") currentModifiers.add("Shift");
+          if (e.key === "Alt") currentModifiers.add("Alt");
+          if (e.key === "Meta") currentModifiers.add("Super");
+
+          hotkeyInput.value = [...currentModifiers].join("+");
+          return;
+        }
+
+        // Format the key name
+        let keyName = e.key;
+        if (keyName === " ") keyName = "Space";
+        else if (keyName === "Escape") keyName = "Esc";
+        else if (keyName.length === 1) keyName = keyName.toUpperCase();
+        else if (keyName === "ArrowUp") keyName = "Up";
+        else if (keyName === "ArrowDown") keyName = "Down";
+        else if (keyName === "ArrowLeft") keyName = "Left";
+        else if (keyName === "ArrowRight") keyName = "Right";
+
+        // Build the final combination
+        const combination = [...currentModifiers, keyName].join("+");
+
+        // Only set and blur if we have a valid combination
+        if (keyName !== "Esc" || currentModifiers.size > 0) {
+          hotkeyInput.value = combination;
+          hotkeyInput.blur();
+          isRecording = false;
+        }
+      });
+
+      document.addEventListener("keyup", (e) => {
+        if (!isRecording) return;
+
+        // Remove released modifier from the set
+        if (e.key === "Control") currentModifiers.delete("Ctrl");
+        if (e.key === "Shift") currentModifiers.delete("Shift");
+        if (e.key === "Alt") currentModifiers.delete("Alt");
+        if (e.key === "Meta") currentModifiers.delete("Super");
+
+        if (currentModifiers.size > 0) {
+          hotkeyInput.value = [...currentModifiers].join("+");
+        }
+      });
+
+      // Save settings
+      saveButton.addEventListener("click", () => {
+        const settings = {
+          theme: themeSelect.value,
+          hotkey: hotkeyInput.value,
+          autoStart: autoStartCheck.checked,
+        };
+
+        ipcRenderer.send("save-settings", settings);
+      });
+
+      // Handle settings saved confirmation
+      ipcRenderer.on("settings-saved", () => {
+        saveButton.classList.add("save-success");
+        saveButton.textContent = "✨ Settings Saved! ✨";
+        setTimeout(() => {
+          saveButton.classList.remove("save-success");
+          saveButton.textContent = "💖 Save Settings 💖";
+        }, 2000);
+      });
+
+      // Close on escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !isRecording) {
+          ipcRenderer.send("close-settings");
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
