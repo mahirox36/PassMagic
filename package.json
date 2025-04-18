@@ -1,0 +1,47 @@
+{
+  "name": "pass-magic",
+  "version": "1.0.0",
+  "description": "Super Cute Password Generator",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder -mwl",
+    "build:windows": "electron-builder --windows",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "author": "MahiroX36",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.12.0"
+  },
+  "dependencies": {
+    "electron-store": "^8.2.0",
+    "robotjs": "^0.6.0"
+  },
+  "build": {
+    "appId": "com.passmagic.app",
+    "productName": "PassMagic",
+    "mac": {
+      "icon": "assets/icon.icns",
+      "category": "public.app-category.utilities",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": "nsis"
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    }
+  }
+}
